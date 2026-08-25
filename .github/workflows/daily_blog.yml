@@ -1,0 +1,42 @@
+name: Daily Automated Blog & Firebase Deploy
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # Runs automatically every day at 10:30 AM IST (5:00 AM UTC)
+  workflow_dispatch:      # Allows running manually anytime via GitHub Actions tab
+
+jobs:
+  auto-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Python Dependencies
+        run: |
+          pip install feedparser google-genai beautifulsoup4
+
+      - name: Run Auto Blog Generator
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python auto_blog.py
+
+      - name: Commit Updated blog.html
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add blog.html
+          git commit -m "Auto-published daily travel update [skip ci]" || echo "No changes to commit"
+          git push
+
+      - name: Deploy Live to Firebase Hosting
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
