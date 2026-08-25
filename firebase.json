@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "nivanta-travels",
     "public": ".",
     "ignore": [
       "firebase.json",
