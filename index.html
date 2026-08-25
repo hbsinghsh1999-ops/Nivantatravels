@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nivanta Travels | Custom Maldives & Thailand Holiday Packages</title>
+    <meta name="description" content="Book custom luxury escapes to Maldives & Thailand with Nivanta Travels. Handpicked overwater villas, resort stays, speedboat transfers, and 24/7 dedicated support. Get a free quote today!">
+    
+    <!-- Google Travel Agency Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TravelAgency",
+      "name": "Nivanta Travels",
+      "image": "https://nivantatravels.site/nivanta.png",
+      "url": "https://nivantatravels.site",
+      "description": "Custom luxury holiday packages and island escapes to Maldives and Thailand.",
+      "priceRange": "₹80,000 - ₹5,000,000",
+      "areaServed": ["India", "Maldives", "Thailand"]
+    }
+    </script>
+
+    <!-- Flatpickr Datepicker CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <a href="index.html" class="logo-badge">
+            <img src="nivanta.png" alt="Nivanta Travels" class="logo-img">
+        </a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html" class="active">Home</a>
+            <a href="maldives.html">Maldives</a>
+            <a href="thailand.html">Thailand</a>
+            <a href="blog.html">Blog</a>
+            <a href="about.html">About</a>
+            <a href="#planner-section">Plan Trip</a>
+            <a href="#footer-contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Video Background Slider -->
+    <section class="hero-section">
+        <!-- Slide 1: Maldives -->
+        <div class="hero-slide active" data-slide="0">
+            <video autoplay muted loop playsinline preload="auto" class="hero-video">
+                <source src="Maldives.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">WELCOME TO NIVANTA TRAVELS</h1>
+                <p class="hero-subtitle">Custom escapes in Maldives tailored specifically for you.</p>
+                <a href="#planner-section" class="hero-cta-btn">Book Your Travel</a>
+            </div>
+        </div>
+
+        <!-- Slide 2: Thailand -->
+        <div class="hero-slide" data-slide="1">
+            <video autoplay muted loop playsinline preload="auto" class="hero-video">
+                <source src="Thailand.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">EXPLORE THAILAND</h1>
+                <p class="hero-subtitle">Discover breathtaking beaches, island resorts, and pristine coastlines.</p>
+                <a href="#planner-section" class="hero-cta-btn">Book Your Travel</a>
+            </div>
+        </div>
+
+        <!-- Slider Dots -->
+        <div class="slider-dots">
+            <span class="dot active" data-target="0" title="Maldives"></span>
+            <span class="dot" data-target="1" title="Thailand"></span>
+        </div>
+    </section>
+
+    <!-- Query / Planner Form Section -->
+    <section class="planner-section" id="planner-section">
+        <div class="container">
+            <div class="form-card">
+                <div class="section-heading">
+                    <h2>Get The Best Holiday Planned By Experts!</h2>
+                    <p>Fill in your details below and our travel specialists will curate a custom itinerary for you.</p>
+                </div>
+
+                <form id="inquiryForm" class="booking-form">
+                    <div class="form-grid">
+                        <!-- Row 1 -->
+                        <div class="field-group">
+                            <label>FULL NAME</label>
+                            <input type="text" name="name" placeholder="John Doe" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label>EMAIL ADDRESS</label>
+                            <input type="email" name="email" placeholder="john@example.com" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label>PHONE / WHATSAPP</label>
+                            <input type="tel" name="phone" placeholder="+91 98765 43210" required>
+                        </div>
+
+                        <!-- Row 2 -->
+                        <div class="field-group">
+                            <label>DEPARTURE CITY</label>
+                            <input type="text" name="departure_city" placeholder="e.g. Mumbai, Delhi, Indore" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label>DESTINATION</label>
+                            <select name="destination" id="destinationSelect" required>
+                                <option value="" disabled selected>Select Destination</option>
+                                <option value="Maldives">Maldives</option>
+                                <option value="Thailand">Thailand</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group">
+                            <label>TRAVEL DATES</label>
+                            <input type="text" id="datePicker" name="travel_dates" placeholder="📅 Check-in ➔ Check-out" required readonly>
+                        </div>
+
+                        <!-- Row 3 -->
+                        <div class="field-group">
+                            <label>DURATION</label>
+                            <input type="text" id="duration" name="duration" placeholder="🔒 Auto-Calculated" readonly class="readonly-input">
+                        </div>
+
+                        <div class="field-group">
+                            <label>GUESTS</label>
+                            <div class="guests-card">
+                                <div class="stepper-row">
+                                    <div class="mini-stepper">
+                                        <span class="mini-label">Adults</span>
+                                        <div class="stepper-control">
+                                            <button type="button" class="stepper-btn" id="adultsMinus" aria-label="Decrease Adults">&minus;</button>
+                                            <span class="stepper-val" id="adultsVal">2</span>
+                                            <button type="button" class="stepper-btn" id="adultsPlus" aria-label="Increase Adults">&plus;</button>
+                                        </div>
+                                    </div>
+                                    <div class="mini-stepper">
+                                        <span class="mini-label">Kids</span>
+                                        <div class="stepper-control">
+                                            <button type="button" class="stepper-btn" id="kidsMinus" aria-label="Decrease Kids">&minus;</button>
+                                            <span class="stepper-val" id="kidsVal">0</span>
+                                            <button type="button" class="stepper-btn" id="kidsPlus" aria-label="Increase Kids">&plus;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="text" id="childAgesInput" name="child_ages" placeholder="Kid age(s) e.g. 4, 8" class="child-ages-field hidden">
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <label>HOTEL CATEGORY</label>
+                            <select name="hotel_category" id="resortCategorySelect" required>
+                                <option value="" disabled selected>Select Category</option>
+                            </select>
+                        </div>
+
+                        <!-- Row 4 -->
+                        <div class="field-group">
+                            <label>TOTAL BUDGET (INR ₹)</label>
+                            <select name="budget_range" required>
+                                <option value="" disabled selected>Select Budget Range</option>
+                                <option value="₹0 - ₹80,000">₹0 - ₹80,000</option>
+                                <option value="₹80,000 - ₹1,50,000">₹80,000 - ₹1,50,000</option>
+                                <option value="₹1,50,000 - ₹3,00,000">₹1,50,000 - ₹3,00,000</option>
+                                <option value="₹3,00,000 - ₹5,00,000">₹3,00,000 - ₹5,00,000</option>
+                                <option value="₹5,00,000+">₹5,00,000+</option>
+                            </select>
+                        </div>
+
+                        <div class="field-group span-2">
+                            <label>ADDITIONAL REQUIREMENTS / NOTES</label>
+                            <textarea name="additional_requirements" placeholder="Mention room choices, flight preferences, dietary needs, etc."></textarea>
+                        </div>
+
+                        <!-- Row 5 -->
+                        <div class="field-group full-width button-group">
+                            <button type="submit" class="submit-btn">Submit Enquiry &rarr;</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-us-section" id="why-us">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose Nivanta Travels</h2>
+                <p>Unmatched expertise, personalized service, and seamless island getaways.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon-wrapper anim-float">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </div>
+                    <h3>Tailor-Made Itineraries</h3>
+                    <p>Every journey is custom designed around your schedule, preferences, and choices.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon-wrapper anim-bounce">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                    <h3>Best Value Pricing</h3>
+                    <p>Transparent pricing with zero hidden charges and maximum value for your budget.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon-wrapper anim-spin">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                    </div>
+                    <h3>24/7 Dedicated Support</h3>
+                    <p>Our travel specialists assist you every step of the way—before and during your trip.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="icon-wrapper anim-wobble">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/>
+                        </svg>
+                    </div>
+                    <h3>Hassle-Free Booking</h3>
+                    <p>Seamless management of transfers, stays, and resort experiences so you can relax entirely.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Centered 2-Column Deep Blue Footer -->
+    <footer class="site-footer" id="footer-contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="maldives.html">Maldives</a></li>
+                        <li><a href="thailand.html">Thailand</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="careers.html">Careers</a></li>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li>
+                            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            info@nivantatravels.site
+                        </li>
+                        <li>
+                            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                            </svg>
+                            <a href="https://www.instagram.com/nivantatravels" target="_blank" rel="noopener noreferrer">nivantatravels</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Nivanta Travels. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- About Pop-Up Modal -->
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeAboutModal" aria-label="Close Modal">&times;</button>
+            <h2>About Nivanta Travels</h2>
+            <p>At Nivanta Travels, we specialize in crafting custom island escapes to Maldives and Thailand. Whether you're seeking tranquil overwater villas, beachfront resorts, or curated tropical adventures, our team ensures every detail of your itinerary is designed with expert care and personal attention.</p>
+        </div>
+    </div>
+
+    <!-- Success Confirmation Pop-Up Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeSuccessModal" aria-label="Close Modal">&times;</button>
+            <div class="success-icon">✓</div>
+            <h2>Query Sent!</h2>
+            <p>Thank you for reaching out. Your inquiry has been sent successfully, and our travel specialists will revert shortly.</p>
+        </div>
+    </div>
+
+    <!-- JS Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="script.js"></script>
+</body>
+</html>
