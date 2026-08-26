@@ -22,11 +22,12 @@ jobs:
 
       - name: Install Python Dependencies
         run: |
-          pip install feedparser google-genai beautifulsoup4
+          pip install requests feedparser google-genai beautifulsoup4
 
       - name: Run Auto Blog Generator
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
         run: python auto_blog.py
 
       - name: Commit Updated blog.html
