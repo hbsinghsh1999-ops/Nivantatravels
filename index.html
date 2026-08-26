@@ -6,7 +6,6 @@
     <title>Nivanta Travels | Custom Maldives & Thailand Holiday Packages</title>
     <meta name="description" content="Book custom luxury escapes to Maldives & Thailand with Nivanta Travels. Handpicked overwater villas, resort stays, speedboat transfers, and 24/7 dedicated support. Get a free quote today!">
     
-    <!-- Google Travel Agency Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -20,21 +19,17 @@
     }
     </script>
 
-    <!-- Flatpickr Datepicker CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Header Navigation -->
     <header class="navbar">
         <a href="index.html" class="logo-badge">
             <img src="nivanta.png" alt="Nivanta Travels" class="logo-img">
@@ -55,11 +50,10 @@
         </nav>
     </header>
 
-    <!-- Hero Video Background Slider -->
     <section class="hero-section">
-        <!-- Slide 1: Maldives -->
         <div class="hero-slide active" data-slide="0">
             <video autoplay muted loop playsinline preload="auto" class="hero-video">
+                <source src="Maldives.webm" type="video/webm">
                 <source src="Maldives.mp4" type="video/mp4">
             </video>
             <div class="hero-overlay"></div>
@@ -70,9 +64,9 @@
             </div>
         </div>
 
-        <!-- Slide 2: Thailand -->
         <div class="hero-slide" data-slide="1">
             <video autoplay muted loop playsinline preload="auto" class="hero-video">
+                <source src="Thailand.webm" type="video/webm">
                 <source src="Thailand.mp4" type="video/mp4">
             </video>
             <div class="hero-overlay"></div>
@@ -83,14 +77,12 @@
             </div>
         </div>
 
-        <!-- Slider Dots -->
         <div class="slider-dots">
             <span class="dot active" data-target="0" title="Maldives"></span>
             <span class="dot" data-target="1" title="Thailand"></span>
         </div>
     </section>
 
-    <!-- Query / Planner Form Section -->
     <section class="planner-section" id="planner-section">
         <div class="container">
             <div class="form-card">
@@ -101,7 +93,6 @@
 
                 <form id="inquiryForm" class="booking-form">
                     <div class="form-grid">
-                        <!-- Row 1 -->
                         <div class="field-group">
                             <label>FULL NAME</label>
                             <input type="text" name="name" placeholder="John Doe" required>
@@ -117,7 +108,6 @@
                             <input type="tel" name="phone" placeholder="+91 98765 43210" required>
                         </div>
 
-                        <!-- Row 2 -->
                         <div class="field-group">
                             <label>DEPARTURE CITY</label>
                             <input type="text" name="departure_city" placeholder="e.g. Mumbai, Delhi, Indore" required>
@@ -137,7 +127,6 @@
                             <input type="text" id="datePicker" name="travel_dates" placeholder="📅 Check-in ➔ Check-out" required readonly>
                         </div>
 
-                        <!-- Row 3 -->
                         <div class="field-group">
                             <label>DURATION</label>
                             <input type="text" id="duration" name="duration" placeholder="🔒 Auto-Calculated" readonly class="readonly-input">
@@ -175,7 +164,6 @@
                             </select>
                         </div>
 
-                        <!-- Row 4 -->
                         <div class="field-group">
                             <label>TOTAL BUDGET (INR ₹)</label>
                             <select name="budget_range" required>
@@ -193,7 +181,6 @@
                             <textarea name="additional_requirements" placeholder="Mention room choices, flight preferences, dietary needs, etc."></textarea>
                         </div>
 
-                        <!-- Row 5 -->
                         <div class="field-group full-width button-group">
                             <button type="submit" class="submit-btn">Submit Enquiry &rarr;</button>
                         </div>
@@ -203,7 +190,6 @@
         </div>
     </section>
 
-    <!-- Why Choose Us Section -->
     <section class="why-us-section" id="why-us">
         <div class="container">
             <div class="section-title">
@@ -256,7 +242,6 @@
         </div>
     </section>
 
-    <!-- Centered 2-Column Deep Blue Footer -->
     <footer class="site-footer" id="footer-contact">
         <div class="container">
             <div class="footer-grid">
@@ -302,7 +287,6 @@
         </div>
     </footer>
 
-    <!-- About Pop-Up Modal -->
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-card">
             <button class="modal-close" id="closeAboutModal" aria-label="Close Modal">&times;</button>
@@ -311,7 +295,6 @@
         </div>
     </div>
 
-    <!-- Success Confirmation Pop-Up Modal -->
     <div class="modal-overlay" id="successModal">
         <div class="modal-card">
             <button class="modal-close" id="closeSuccessModal" aria-label="Close Modal">&times;</button>
@@ -321,7 +304,6 @@
         </div>
     </div>
 
-    <!-- JS Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="script.js"></script>
 </body>
