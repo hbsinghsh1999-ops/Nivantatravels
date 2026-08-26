@@ -30,12 +30,12 @@ jobs:
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
         run: python auto_blog.py
 
-      - name: Commit Updated blog.html
+      - name: Commit Updated Blog & Article Pages
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add blog.html
-          git commit -m "Auto-published daily travel update [skip ci]" || echo "No changes to commit"
+          git add .
+          git commit -m "Auto-published daily travel article [skip ci]" || echo "No changes to commit"
           git push
 
       - name: Deploy Live to Firebase Hosting
