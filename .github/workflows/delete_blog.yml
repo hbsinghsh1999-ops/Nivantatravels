@@ -1,0 +1,85 @@
+name: Delete Blog Post & Firebase Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      search_term:
+        description: 'Enter Date (e.g., 26 AUG 2026) or Title Keyword to delete'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  delete-post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Python Dependencies
+        run: |
+          pip install beautifulsoup4
+
+      - name: Delete Specified Post
+        env:
+          SEARCH_TERM: ${{ inputs.search_term }}
+        run: |
+          python -c "
+          import os
+          from bs4 import BeautifulSoup
+
+          search_term = os.environ.get('SEARCH_TERM', '').strip().lower()
+          if not search_term:
+              print('No search term provided.')
+              exit(1)
+
+          if not os.path.exists('blog.html'):
+              print('blog.html not found.')
+              exit(1)
+
+          with open('blog.html', 'r', encoding='utf-8') as f:
+              soup = BeautifulSoup(f.read(), 'html.parser')
+
+          container = soup.find(id='blog-posts-container')
+          if not container:
+              print('blog-posts-container not found.')
+              exit(1)
+
+          articles = container.find_all('article')
+          deleted_count = 0
+
+          for article in articles:
+              article_text = article.get_text().lower()
+              if search_term in article_text:
+                  article.decompose()
+                  deleted_count += 1
+
+          if deleted_count > 0:
+              with open('blog.html', 'w', encoding='utf-8') as f:
+                  f.write(str(soup))
+              print(f'Successfully deleted {deleted_count} matching post(s).')
+          else:
+              print(f'No post found matching: {search_term}')
+          "
+
+      - name: Commit Updated blog.html
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add blog.html
+          git commit -m "Deleted blog post matching search term [skip ci]" || echo "No changes to commit"
+          git push
+
+      - name: Deploy Live to Firebase Hosting
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
