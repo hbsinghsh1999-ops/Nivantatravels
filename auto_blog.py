@@ -3,6 +3,7 @@ import re
 import time
 import requests
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from bs4 import BeautifulSoup
 from google import genai
 from google.genai import types
@@ -99,9 +100,12 @@ def fetch_news_from_api(existing_titles, count=3):
         return None, None
 
 def generate_article_and_card(news_text, image_url):
-    """Generates standalone article page and main feed card with travel relevance checks."""
+    """Generates standalone article page and main feed card with travel relevance checks and IST timestamp."""
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
-    pub_date = datetime.now().strftime("%B %d, %Y • %I:%M %p").upper()
+    
+    # Force exact IST Timezone formatting
+    ist_time = datetime.now(ZoneInfo("Asia/Kolkata"))
+    pub_date = ist_time.strftime("%B %d, %Y • %I:%M %p IST").upper()
     
     prompt = f"""
     You are an expert travel editor for Nivanta Travels, a luxury travel consultancy specializing in Maldives and Thailand.
