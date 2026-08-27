@@ -39,7 +39,8 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Auto-published daily travel article [skip ci]" || echo "No changes to commit"
-          git push
+          git pull origin main --rebase || echo "No remote changes to pull"
+          git push origin main
 
       - name: Deploy Live to Firebase Hosting
         uses: w9jds/firebase-action@master
