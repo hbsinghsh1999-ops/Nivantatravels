@@ -18,18 +18,37 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Hero Video Slider Controls
+    // 3. Hero Video Slider Controls (With Forced Autoplay Fix)
     const slides = document.querySelectorAll('.hero-slide');
     const dots = document.querySelectorAll('.slider-dots .dot');
     let currentSlide = 0;
 
     function goToSlide(index) {
-        slides.forEach(slide => slide.classList.remove('active'));
+        slides.forEach(slide => {
+            slide.classList.remove('active');
+            const video = slide.querySelector('video');
+            if (video) {
+                video.pause();
+            }
+        });
         dots.forEach(dot => dot.classList.remove('active'));
 
         slides[index].classList.add('active');
         dots[index].classList.add('active');
         currentSlide = index;
+
+        // Force active slide video to play
+        const activeVideo = slides[index].querySelector('video');
+        if (activeVideo) {
+            activeVideo.muted = true; // Required for mobile autoplay policy
+            activeVideo.currentTime = 0;
+            const playPromise = activeVideo.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Autoplay policy error:", error);
+                });
+            }
+        }
     }
 
     dots.forEach(dot => {
@@ -43,6 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let nextSlide = (currentSlide + 1) % slides.length;
         goToSlide(nextSlide);
     }, 7000);
+
+    // Initial force-play for Slide 0 on load
+    goToSlide(0);
 
     // 4. Destination Select Dropdown & Categories Init
     const destinationSelect = document.getElementById('destinationSelect');
@@ -248,7 +270,6 @@ New Travel Booking Inquiry (${selectedDestination}):
                     if (successModal) successModal.classList.add('active');
                     inquiryForm.reset();
                     
-                    // Reset guest counters & inline child age field
                     adultsCount = 2;
                     kidsCount = 0;
                     if (adultsVal) adultsVal.innerText = adultsCount;
