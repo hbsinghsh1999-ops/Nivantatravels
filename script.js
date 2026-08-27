@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Hero Video Slider Controls (With Forced Autoplay Fix)
+    // 3. Hero Video Slider Controls (With Autoplay Fix)
     const slides = document.querySelectorAll('.hero-slide');
     const dots = document.querySelectorAll('.slider-dots .dot');
     let currentSlide = 0;
@@ -27,9 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         slides.forEach(slide => {
             slide.classList.remove('active');
             const video = slide.querySelector('video');
-            if (video) {
-                video.pause();
-            }
+            if (video) video.pause(); // Pause hidden video
         });
         dots.forEach(dot => dot.classList.remove('active'));
 
@@ -40,13 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Force active slide video to play
         const activeVideo = slides[index].querySelector('video');
         if (activeVideo) {
-            activeVideo.muted = true; // Required for mobile autoplay policy
+            activeVideo.muted = true;
             activeVideo.currentTime = 0;
             const playPromise = activeVideo.play();
             if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log("Autoplay policy error:", error);
-                });
+                playPromise.catch(error => console.log("Autoplay policy error:", error));
             }
         }
     }
@@ -70,11 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const destinationSelect = document.getElementById('destinationSelect');
     const resortCategorySelect = document.getElementById('resortCategorySelect');
 
-    const starCategories = [
-        "03 Star",
-        "04 Star",
-        "05 Star"
-    ];
+    const starCategories = ["03 Star", "04 Star", "05 Star"];
 
     function updateResortOptions() {
         if (!resortCategorySelect) return;
@@ -138,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const childAgesInput = document.getElementById('childAgesInput');
 
-    // Adults Stepper Handlers
     if (adultsMinus && adultsPlus && adultsVal) {
         adultsMinus.addEventListener('click', () => {
             if (adultsCount > 1) {
@@ -153,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Kids Stepper & Inline Age Field Toggle
     function toggleChildAgeField() {
         if (!childAgesInput) return;
         if (kidsCount > 0) {
