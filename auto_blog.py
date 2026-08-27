@@ -35,7 +35,6 @@ def fetch_news_from_api(existing_titles, count=3):
         return None, None
         
     url = "https://newsapi.org/v2/everything"
-    # Strict travel-only query filter
     params = {
         "q": '("international travel" OR "tourist visa" OR "international flight" OR "Maldives tourism" OR "Thailand visa" OR "airline baggage" OR "passport rules" OR "overseas travel tax") AND "India"',
         "language": "en",
@@ -100,10 +99,9 @@ def fetch_news_from_api(existing_titles, count=3):
         return None, None
 
 def generate_article_and_card(news_text, image_url):
-    """Generates standalone article page and main feed card with travel relevance checks and IST timestamp."""
+    """Generates standalone article page and main feed card with GA tracking tag and IST timestamp."""
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
     
-    # Force exact IST Timezone formatting
     ist_time = datetime.now(ZoneInfo("Asia/Kolkata"))
     pub_date = ist_time.strftime("%B %d, %Y • %I:%M %p IST").upper()
     
@@ -155,6 +153,16 @@ def generate_article_and_card(news_text, image_url):
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title} | Nivanta Travels Policy Digest</title>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1PTHZTHLGZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+
+    gtag('config', 'G-1PTHZTHLGZ');
+  </script>
+
   <style>
     * {{ box-sizing: border-box; }}
     body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #ffffff; margin: 0; padding: 0; color: #0f172a; -webkit-font-smoothing: antialiased; }}
