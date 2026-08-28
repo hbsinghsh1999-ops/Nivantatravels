@@ -16,10 +16,7 @@ def is_duplicate_topic(new_headline, blog_file="blog.html"):
     with open(blog_file, "r", encoding="utf-8") as f:
         soup = BeautifulSoup(f.read(), "html.parser")
 
-    # Get all existing article titles from blog.html
     existing_titles = [h.get_text().lower() for h in soup.find_all(["h2", "h3", "h4"])]
-
-    # Extract major words (longer than 3 letters) from the new headline
     new_keywords = set(re.findall(r'\b\w{4,}\b', new_headline.lower()))
 
     for title in existing_titles:
@@ -27,7 +24,6 @@ def is_duplicate_topic(new_headline, blog_file="blog.html"):
         if not new_keywords:
             continue
         
-        # If 50% or more key words overlap with an old post, mark as duplicate
         overlap = new_keywords.intersection(existing_keywords)
         if (len(overlap) / len(new_keywords)) >= 0.5:
             print(f"🚫 Duplicate detected! Skipping: '{new_headline}'")
@@ -46,14 +42,12 @@ def main():
         print("❌ Error: Missing API Keys.")
         return
 
-    # Fetch top travel news stories
     news_url = f"https://newsapi.org/v2/everything?q=travel+OR+tourism+OR+visa&sortBy=publishedAt&language=en&apiKey={news_api_key}"
     response = requests.get(news_url).json()
     articles = response.get("articles", [])
 
     selected_article = None
 
-    # STEP 3 IN ACTION: Loop through news until finding a non-duplicate story
     for article in articles:
         title = article.get("title", "")
         description = article.get("description", "")
@@ -61,7 +55,6 @@ def main():
         if not title or "Removed" in title:
             continue
 
-        # Check duplicate function
         if not is_duplicate_topic(title):
             selected_article = article
             print(f"✅ Unique news selected: {title}")
@@ -71,7 +64,7 @@ def main():
         print("⚠️ No fresh, unique news stories found today.")
         return
 
-    # Initialize Gemini AI
+    # Initialize Gemini AI Client
     client = genai.Client(api_key=gemini_api_key)
     
     prompt = f"""
@@ -86,14 +79,14 @@ def main():
     - What it means for Indian travelers
     """
 
+    # Updated model string to gemini-3.6-flash
     ai_response = client.models.generate_content(
-        model='gemini-2.5-flash',
+        model='gemini-3.6-flash',
         contents=prompt
     )
 
     article_content = ai_response.text
 
-    # Append new article card to blog.html
     today_date = datetime.datetime.now().strftime("%B %d, %Y")
     
     new_card_html = f"""
@@ -110,7 +103,6 @@ def main():
         with open("blog.html", "r", encoding="utf-8") as f:
             blog_page = f.read()
         
-        # Insert new post right under the header container
         updated_page = blog_page.replace('<!-- BLOG_POSTS_START -->', f'<!-- BLOG_POSTS_START -->\n{new_card_html}')
         
         with open("blog.html", "w", encoding="utf-8") as f:
